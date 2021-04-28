@@ -3,6 +3,10 @@
 
 #include <QWidget>
 #include <QMouseEvent>
+#include <QPainter>
+
+#include <vector>
+
 
 class GraphWidget : public QWidget
 {
@@ -19,8 +23,8 @@ protected:
     void mouseMoveEvent(QMouseEvent *event);
 
 private:
-    int circleX;
-    int circleY;
+    std::vector<int> circleX;
+    std::vector<int> circleY;
 
     bool leftPressed = false;
 };

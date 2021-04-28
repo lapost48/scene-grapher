@@ -1,27 +1,30 @@
 #include "graphwidget.h"
 
-#include <iostream>
-#include <QPainter>
-
-using namespace std;
 
 GraphWidget::GraphWidget()
     : QWidget()
 {
 }
 
+GraphWidget::~GraphWidget()
+{
+}
+
 void GraphWidget::paintEvent(QPaintEvent *)
 {
     QPainter p(this);
-    p.drawEllipse(circleX,circleY,50,50);
+    for (int i = 0; i < circleX.size(); i++)
+    {
+        p.drawEllipse(circleX[i],circleY[i],50,50);
+    }
 }
 
 void GraphWidget::mousePressEvent(QMouseEvent *event)
 {
     if(event->button() == Qt::LeftButton)
     {
-        this->circleX = event->pos().x() - 25;
-        this->circleY = event->pos().y() - 25;
+        this->circleX.push_back(event->pos().x() - 25);
+        this->circleY.push_back(event->pos().y() - 25);
         repaint();
         leftPressed = true;
     }
@@ -39,13 +42,10 @@ void GraphWidget::mouseMoveEvent(QMouseEvent *event)
 {
     if(leftPressed)
     {
-        this->circleX = event->pos().x() - 25;
-        this->circleY = event->pos().y() - 25;
+        this->circleX.pop_back();
+        this->circleY.pop_back();
+        this->circleX.push_back(event->pos().x() - 25);
+        this->circleY.push_back(event->pos().y() - 25);
         repaint();
     }
-}
-
-GraphWidget::~GraphWidget()
-{
-
 }
