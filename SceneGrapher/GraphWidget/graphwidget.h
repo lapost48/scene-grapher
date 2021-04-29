@@ -1,6 +1,8 @@
 #ifndef GRAPHWIDGET_H
 #define GRAPHWIDGET_H
 
+#include "CircleGraph/circlegraph.h"
+
 #include <QWidget>
 #include <QMouseEvent>
 #include <QPainter>
@@ -23,8 +25,9 @@ protected:
     void mouseMoveEvent(QMouseEvent *event);
 
 private:
-    std::vector<int> circleX;
-    std::vector<int> circleY;
+//    std::vector<int> circleX;
+//    std::vector<int> circleY;
+    CircleGraph circles;
 
     bool leftPressed = false;
 };
