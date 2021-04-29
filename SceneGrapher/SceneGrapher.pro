@@ -9,12 +9,16 @@ CONFIG += c++11
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    Scene/scene.cpp \
+    Tools/fileopener.cpp \
     main.cpp \
     GraphWidget/graphwidget.cpp \
     mainwindow.cpp
 
 HEADERS += \
     GraphWidget/graphwidget.h \
+    Scene/scene.h \
+    Tools/fileopener.h \
     mainwindow.h
 
 FORMS += \

@@ -1,5 +1,6 @@
 #include "mainwindow.h"
 #include "GraphWidget/graphwidget.h"
+#include "Tools/fileopener.h"
 
 #include <QApplication>
 #include <QDebug>
