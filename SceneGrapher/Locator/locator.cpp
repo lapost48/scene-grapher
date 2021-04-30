@@ -1,6 +1,12 @@
 #include "locator.h"
 
-Locator::Locator()
+Locator::Locator(CircleGraph* g)
 {
+    graph = g;
+}
 
-};
+Locator::~Locator()
+{
+    delete graph;
+}
+

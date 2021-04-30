@@ -2,6 +2,7 @@
 #define GRAPHWIDGET_H
 
 #include "CircleGraph/circlegraph.h"
+#include "Locator/locator.h"
 
 #include <QWidget>
 #include <QMouseEvent>
@@ -25,9 +26,8 @@ protected:
     void mouseMoveEvent(QMouseEvent *event);
 
 private:
-//    std::vector<int> circleX;
-//    std::vector<int> circleY;
     CircleGraph circles;
+    Locator locator;
 
     bool leftPressed = false;
 };

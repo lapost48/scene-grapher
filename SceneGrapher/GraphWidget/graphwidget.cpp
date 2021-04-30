@@ -2,8 +2,9 @@
 
 
 GraphWidget::GraphWidget()
-    : QWidget()
+    : QWidget(), locator(&circles)
 {
+
 }
 
 GraphWidget::~GraphWidget()
@@ -44,15 +45,9 @@ void GraphWidget::mouseMoveEvent(QMouseEvent *event)
 {
     if(leftPressed)
     {
-
-//        for(int i = 0; i < circles.getSize(); i++)
-//        {
-//            qDebug() << circles.get(i).getX() << ":" << circles.get(i).getY();
-//        }
         int x = event->pos().x() - 25;
         int y = event->pos().y() - 25;
         circles.get(circles.getSize() - 1)->move(x, y);
-        qDebug() << circles.get(circles.getSize() - 1)->getX() << ":" << circles.get(circles.getSize() - 1)->getY();
         repaint();
     }
 }

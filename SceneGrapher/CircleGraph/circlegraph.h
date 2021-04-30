@@ -5,6 +5,7 @@
 
 class CircleNode
 {
+
 public:
     CircleNode(int x, int y, int size);
     ~CircleNode();
