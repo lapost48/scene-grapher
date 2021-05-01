@@ -2,7 +2,7 @@
 #define CIRCLEGRAPH_H
 
 #include <QPoint>
-#include <qDebug>
+//#include <qDebug>
 
 #include <list>
 #include <cmath>

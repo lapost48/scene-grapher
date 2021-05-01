@@ -62,16 +62,17 @@ CircleNode& CircleLocator::nearestCircle(QPoint point)
 
     CircleNode* nearestNode = &*it;
 //    CircleNode* nea = &nearestNode;
-    double minDist = sqrt(pow(it->getX() - point.x(),2) + pow(it->getY() - point.y(), 2));
-    qDebug() << "init" << minDist;
+    int itX = it->getX() + (it->getSize() / 2);
+    int itY = it->getY() + (it->getSize() / 2);
+    double minDist = sqrt(pow(itX - point.x(),2) + pow(itY - point.y(), 2));
 
     do
     {
-        double dist = sqrt(pow(it->getX() - point.x(),2) + pow(it->getY() - point.y(), 2));
-        qDebug() << "next" << dist;
+        itX = it->getX() + (it->getSize() / 2);
+        itY = it->getY() + (it->getSize() / 2);
+        double dist = sqrt(pow(itX - point.x(),2) + pow(itY - point.y(), 2));
         if(dist < minDist)
         {
-            qDebug() << "Smaller Node";
             nearestNode = &*it;
             minDist = dist;
         }
