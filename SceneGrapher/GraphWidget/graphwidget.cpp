@@ -2,7 +2,7 @@
 
 
 GraphWidget::GraphWidget()
-    : QWidget(), locator(&circles)
+    : QWidget()
 {
 
 }
@@ -16,8 +16,9 @@ void GraphWidget::paintEvent(QPaintEvent *)
     QPainter p(this);
     for (int i = 0; i < circles.getSize(); i++)
     {
-        CircleNode* node = circles.get(i);
-        p.drawEllipse(node->getX(), node->getY(), node->getSize(), node->getSize());
+        CircleNode node = circles.get(i);
+        p.setBrush(QBrush(node.getColor()));
+        p.drawEllipse(node.getX(), node.getY(), node.getSize(), node.getSize());
     }
 }
 
@@ -27,10 +28,15 @@ void GraphWidget::mousePressEvent(QMouseEvent *event)
     {
         int x = event->pos().x() - 25;
         int y = event->pos().y() - 25;
-        circles.add(new CircleNode(x, y, 50));
-        repaint();
+        circles.add(CircleNode(x, y, 50));
         leftPressed = true;
     }
+    if(event->button() == Qt::RightButton)
+    {
+        CircleNode& node = circles.circleLocator.nearestCircle((event->pos()));
+        node.setColor(Qt::GlobalColor::red);
+    }
+    repaint();
 }
 
 void GraphWidget::mouseReleaseEvent(QMouseEvent *event)
@@ -39,6 +45,12 @@ void GraphWidget::mouseReleaseEvent(QMouseEvent *event)
     {
         leftPressed = false;
     }
+    if(event->button() == Qt::RightButton)
+    {
+        CircleNode& node = circles.circleLocator.nearestCircle((event->pos()));
+        node.setColor(Qt::GlobalColor::black);
+    }
+    repaint();
 }
 
 void GraphWidget::mouseMoveEvent(QMouseEvent *event)
@@ -47,7 +59,7 @@ void GraphWidget::mouseMoveEvent(QMouseEvent *event)
     {
         int x = event->pos().x() - 25;
         int y = event->pos().y() - 25;
-        circles.get(circles.getSize() - 1)->move(x, y);
-        repaint();
+        circles.get(circles.getSize() - 1).move(x, y);
     }
+    repaint();
 }

@@ -2,13 +2,15 @@
 #define GRAPHWIDGET_H
 
 #include "CircleGraph/circlegraph.h"
-#include "Locator/locator.h"
 
 #include <QWidget>
 #include <QMouseEvent>
 #include <QPainter>
 
 #include <vector>
+
+
+#include <Qt>
 
 
 class GraphWidget : public QWidget
@@ -27,7 +29,6 @@ protected:
 
 private:
     CircleGraph circles;
-    Locator locator;
 
     bool leftPressed = false;
 };

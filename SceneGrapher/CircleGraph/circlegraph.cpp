@@ -7,6 +7,7 @@ CircleNode::CircleNode(int x, int y, int s)
     xPos = x;
     yPos = y;
     size = s;
+    circleColor = Qt::GlobalColor::black;
 }
 
 CircleNode::~CircleNode()
@@ -35,19 +36,60 @@ void CircleNode::move(int x, int y)
     yPos = y;
 }
 
+void CircleNode::setColor(Qt::GlobalColor color)
+{
+    circleColor = color;
+}
+
+Qt::GlobalColor CircleNode::getColor()
+{
+    return circleColor;
+}
+
+CircleLocator::CircleLocator(std::list<CircleNode>* circles)
+{
+    nodes = circles;
+}
+
+CircleLocator::~CircleLocator()
+{
+
+}
+
+CircleNode& CircleLocator::nearestCircle(QPoint point)
+{
+    std::list<CircleNode>::iterator it = nodes->begin();
+
+    CircleNode* nearestNode = &*it;
+//    CircleNode* nea = &nearestNode;
+    double minDist = sqrt(pow(it->getX() - point.x(),2) + pow(it->getY() - point.y(), 2));
+    qDebug() << "init" << minDist;
+
+    do
+    {
+        double dist = sqrt(pow(it->getX() - point.x(),2) + pow(it->getY() - point.y(), 2));
+        qDebug() << "next" << dist;
+        if(dist < minDist)
+        {
+            qDebug() << "Smaller Node";
+            nearestNode = &*it;
+            minDist = dist;
+        }
+        std::advance(it, 1);
+    } while(it != nodes->end());
+
+    return *nearestNode;
+}
 
 CircleGraph::CircleGraph()
+    : circleLocator(&nodes)
 {
 
 }
 
 CircleGraph::~CircleGraph()
 {
-    for(CircleNode* ptr : nodes)
-    {
-        delete ptr;
-    }
-    nodes.clear();
+
 }
 
 int CircleGraph::getSize()
@@ -55,7 +97,7 @@ int CircleGraph::getSize()
     return nodes.size();
 }
 
-int CircleGraph::add(CircleNode* newNode)
+int CircleGraph::add(CircleNode newNode)
 {
     nodes.push_back(newNode);
     return nodes.size();
@@ -63,17 +105,21 @@ int CircleGraph::add(CircleNode* newNode)
 
 void CircleGraph::remove(int index)
 {
-    std::list<CircleNode*>::iterator it = nodes.begin();
+    std::list<CircleNode>::iterator it = nodes.begin();
     advance(it,index);
-    delete *it;
     nodes.erase(it);
 }
 
-CircleNode* CircleGraph::get(int index)
+CircleNode& CircleGraph::get(int index)
 {
-    std::list<CircleNode*>::iterator it = nodes.begin();
+    std::list<CircleNode>::iterator it = nodes.begin();
     advance(it,index);
     return *it;
+}
+
+std::list<CircleNode>::iterator CircleGraph::circleIterator()
+{
+    return nodes.begin();
 }
 
 //}

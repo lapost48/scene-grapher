@@ -10,7 +10,6 @@ CONFIG += c++11
 
 SOURCES += \
     CircleGraph/circlegraph.cpp \
-    Locator/locator.cpp \
     main.cpp \
     GraphWidget/graphwidget.cpp \
     mainwindow.cpp
@@ -18,7 +17,6 @@ SOURCES += \
 HEADERS += \
     CircleGraph/circlegraph.h \
     GraphWidget/graphwidget.h \
-    Locator/locator.h \
     mainwindow.h
 
 FORMS += \
