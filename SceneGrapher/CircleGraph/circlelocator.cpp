@@ -65,3 +65,8 @@ bool CircleLocator::isInsideNode(QPoint point)
     } while(it != nodes->end());
     return false;
 }
+
+int CircleLocator::numCircles()
+{
+    return nodes->size();
+}

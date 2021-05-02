@@ -14,6 +14,7 @@ public:
     ~CircleLocator();
     CircleNode& nearestCircle(QPoint point);
     bool isInsideNode(QPoint point);
+    int numCircles();
 
 private:
     std::list<CircleNode*>* nodes;
