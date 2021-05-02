@@ -22,7 +22,7 @@ public:
     CircleNode& popCircle();
     void removeCircle(int index);
     CircleNode& getCircle(int index);
-    std::list<CircleNode>::iterator circleIterator();
+    std::list<CircleNode*>::iterator circleIterator();
 //    CircleNode& find(CircleNode* nodeRef);
     int numEdges();
     int addEdge(Edge newEdge);
@@ -30,7 +30,7 @@ public:
     Edge& popEdge();
 
 private:
-    std::list<CircleNode> nodes;
+    std::list<CircleNode*> nodes;
     std::list<Edge> edges;
 
 };

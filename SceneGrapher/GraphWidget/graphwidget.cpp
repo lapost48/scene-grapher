@@ -1,4 +1,5 @@
 #include "graphwidget.h"
+#include <QtDebug>
 
 
 GraphWidget::GraphWidget()
@@ -38,16 +39,27 @@ void GraphWidget::mousePressEvent(QMouseEvent *event)
 {
     if(event->button() == Qt::LeftButton)
     {
-        bool insideOldNode = circles.circleLocator.isInsideNode(event->pos());
-        CircleNode& node = circles.circleLocator.nearestCircle((event->pos()));
+        if (circles.numCircles() > 0)
+        {
+            bool insideOldNode = circles.circleLocator.isInsideNode(event->pos());
+            CircleNode& node = circles.circleLocator.nearestCircle((event->pos()));
 
-        int x = event->pos().x() - 25;
-        int y = event->pos().y() - 25;
-        circles.addCircle(CircleNode(x, y, 50));
-        leftPressed = true;
+            int x = event->pos().x() - 25;
+            int y = event->pos().y() - 25;
+            circles.addCircle(CircleNode(x, y, 50));
+            leftPressed = true;
 
-        if(insideOldNode)
-            circles.addEdge(Edge(&node, &circles.getCircle(circles.numCircles() - 1)));
+            if(insideOldNode)
+                circles.addEdge(Edge(&node, &circles.getCircle(circles.numCircles() - 1)));
+
+        }
+        else
+        {
+            int x = event->pos().x() - 25;
+            int y = event->pos().y() - 25;
+            circles.addCircle(CircleNode(x, y, 50));
+            leftPressed = true;
+        }
     }
     if(event->button() == Qt::RightButton)
     {

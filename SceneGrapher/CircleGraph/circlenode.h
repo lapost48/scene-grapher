@@ -8,6 +8,7 @@ class CircleNode
 
 public:
     CircleNode(int x, int y, int size);
+    CircleNode(const CircleNode& val);
     ~CircleNode();
     int getSize();
     int getY();

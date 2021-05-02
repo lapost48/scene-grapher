@@ -10,13 +10,13 @@ class CircleLocator
 {
 
 public:
-    CircleLocator(std::list<CircleNode>*);
+    CircleLocator(std::list<CircleNode*>*);
     ~CircleLocator();
     CircleNode& nearestCircle(QPoint point);
     bool isInsideNode(QPoint point);
 
 private:
-    std::list<CircleNode>* nodes;
+    std::list<CircleNode*>* nodes;
 };
 
 #endif // CIRCLELOCATOR_H

@@ -8,6 +8,14 @@ CircleNode::CircleNode(int x, int y, int s)
     circleColor = Qt::GlobalColor::black;
 }
 
+CircleNode::CircleNode(const CircleNode& val)
+{
+    xPos = val.xPos;
+    yPos = val.yPos;
+    size = val.size;
+    circleColor = val.circleColor;
+}
+
 CircleNode::~CircleNode()
 {
 

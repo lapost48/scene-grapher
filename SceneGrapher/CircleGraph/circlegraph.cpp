@@ -10,7 +10,12 @@ CircleGraph::CircleGraph()
 
 CircleGraph::~CircleGraph()
 {
+    for(CircleNode* node : nodes)
+    {
+       delete node;
+    }
 
+    nodes.clear();
 }
 
 int CircleGraph::numCircles()
@@ -20,32 +25,33 @@ int CircleGraph::numCircles()
 
 int CircleGraph::addCircle(CircleNode newNode)
 {
-    nodes.push_back(newNode);
+    CircleNode * val = new CircleNode(newNode);
+    nodes.push_back(val);
     return nodes.size();
 }
 
 CircleNode& CircleGraph::popCircle()
 {
-    CircleNode& ret =  nodes.back();
+    CircleNode* ret =  nodes.back();
     nodes.pop_back();
-    return ret;
+    return *ret;
 }
 
 void CircleGraph::removeCircle(int index)
 {
-    std::list<CircleNode>::iterator it = nodes.begin();
+    std::list<CircleNode*>::iterator it = nodes.begin();
     advance(it,index);
     nodes.erase(it);
 }
 
 CircleNode& CircleGraph::getCircle(int index)
 {
-    std::list<CircleNode>::iterator it = nodes.begin();
+    std::list<CircleNode*>::iterator it = nodes.begin();
     advance(it,index);
-    return *it;
+    return **it;
 }
 
-std::list<CircleNode>::iterator CircleGraph::circleIterator()
+std::list<CircleNode*>::iterator CircleGraph::circleIterator()
 {
     return nodes.begin();
 }
