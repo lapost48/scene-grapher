@@ -10,12 +10,18 @@ CONFIG += c++11
 
 SOURCES += \
     CircleGraph/circlegraph.cpp \
+    CircleGraph/circlelocator.cpp \
+    CircleGraph/circlenode.cpp \
+    CircleGraph/edge.cpp \
     main.cpp \
     GraphWidget/graphwidget.cpp \
     mainwindow.cpp
 
 HEADERS += \
     CircleGraph/circlegraph.h \
+    CircleGraph/circlelocator.h \
+    CircleGraph/circlenode.h \
+    CircleGraph/edge.h \
     GraphWidget/graphwidget.h \
     mainwindow.h
 
