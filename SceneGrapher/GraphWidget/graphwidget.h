@@ -2,6 +2,7 @@
 #define GRAPHWIDGET_H
 
 #include "CircleGraph/circlegraph.h"
+#include "statemachine.h"
 
 #include <QWidget>
 #include <QMouseEvent>
@@ -28,9 +29,8 @@ protected:
     void mouseMoveEvent(QMouseEvent *event);
 
 private:
-    CircleGraph circles;
-
-    bool leftPressed = false;
+    CircleGraph graph;
+    StateMachine stateMachine;
 };
 
 #endif // GRAPHWIDGET_H

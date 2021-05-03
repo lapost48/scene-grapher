@@ -13,6 +13,7 @@ SOURCES += \
     CircleGraph/circlelocator.cpp \
     CircleGraph/circlenode.cpp \
     CircleGraph/edge.cpp \
+    GraphWidget/statemachine.cpp \
     main.cpp \
     GraphWidget/graphwidget.cpp \
     mainwindow.cpp
@@ -23,6 +24,7 @@ HEADERS += \
     CircleGraph/circlenode.h \
     CircleGraph/edge.h \
     GraphWidget/graphwidget.h \
+    GraphWidget/statemachine.h \
     mainwindow.h
 
 FORMS += \
