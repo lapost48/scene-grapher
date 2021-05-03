@@ -106,6 +106,8 @@ bool StateMachine::transition(QMouseEvent* event)
     {
         delete currentState;
         currentState = temp;
+        return true;
     }
+    return false;
 }
 

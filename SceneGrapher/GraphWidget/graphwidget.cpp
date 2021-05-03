@@ -7,7 +7,7 @@
 GraphWidget::GraphWidget()
     : QWidget(), stateMachine(&graph)
 {
-    graph = CircleGraph();
+
 }
 
 GraphWidget::~GraphWidget()
