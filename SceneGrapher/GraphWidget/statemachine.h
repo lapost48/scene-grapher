@@ -32,12 +32,13 @@ class MovingNodeState
 {
 
 public:
-    MovingNodeState(CircleGraph* g, CircleNode* a);
+    MovingNodeState(CircleGraph* g, CircleNode* a, Qt::MouseButton action);
     ~MovingNodeState();
     State* updateState(QMouseEvent* event);
 
 private:
     CircleNode* activeNode;
+    Qt::MouseButton enterAction;
 };
 
 class StateMachine

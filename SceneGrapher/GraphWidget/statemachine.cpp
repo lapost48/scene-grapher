@@ -36,20 +36,22 @@ State* DefaultState::updateState(QMouseEvent* event)
 
             if(insideOldNode)
                 graph->addEdge(Edge(&node, &graph->getCircle(graph->numCircles() - 1)));
-            return new MovingNodeState(graph, &graph->getCircle(graph->numCircles() - 1));
+            return new MovingNodeState(graph, &graph->getCircle(graph->numCircles() - 1), Qt::LeftButton);
         }
         else
         {
             int x = event->pos().x() - 25;
             int y = event->pos().y() - 25;
             graph->addCircle(CircleNode(x, y, 50));
-            return new MovingNodeState(graph, &graph->getCircle(graph->numCircles() - 1));
+            return new MovingNodeState(graph, &graph->getCircle(graph->numCircles() - 1), Qt::LeftButton);
         }
     }
     else if(event->button() == Qt::RightButton)
     {
-        CircleNode& node = graph->circleLocator.nearestCircle((event->pos()));
-        node.setColor(Qt::GlobalColor::red);
+        if(graph->circleLocator.isInsideNode(event->pos()))
+        {
+            return new MovingNodeState(graph, &graph->circleLocator.nearestCircle((event->pos())), Qt::RightButton);
+        }
         return this;
     }
     else
@@ -58,10 +60,11 @@ State* DefaultState::updateState(QMouseEvent* event)
     }
 }
 
-MovingNodeState::MovingNodeState(CircleGraph* g, CircleNode* a)
+MovingNodeState::MovingNodeState(CircleGraph* g, CircleNode* a, Qt::MouseButton action)
     : State(g)
 {
     activeNode = a;
+    enterAction = action;
 }
 
 MovingNodeState::~MovingNodeState()
@@ -78,7 +81,7 @@ State* MovingNodeState::updateState(QMouseEvent* event)
         activeNode->move(x, y);
         return this;
     }
-    else if(event->button() == Qt::LeftButton || event->button() == Qt::RightButton)
+    else if(event->button() == enterAction)
     {
         return new DefaultState(graph);
     }
