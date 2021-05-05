@@ -30,11 +30,11 @@ int CircleGraph::addCircle(CircleNode newNode)
     return nodes.size();
 }
 
-CircleNode& CircleGraph::popCircle()
+CircleNode CircleGraph::popCircle()
 {
-    CircleNode* ret =  nodes.back();
+    CircleNode ret =  *nodes.back();
     nodes.pop_back();
-    return *ret;
+    return ret;
 }
 
 void CircleGraph::removeCircle(int index)

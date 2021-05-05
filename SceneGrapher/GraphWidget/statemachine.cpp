@@ -35,7 +35,9 @@ State* DefaultState::updateState(QMouseEvent* event)
             graph->addCircle(CircleNode(x, y, 50));
 
             if(insideOldNode)
+            {
                 graph->addEdge(Edge(&node, &graph->getCircle(graph->numCircles() - 1)));
+            }
             return new MovingNodeState(graph, &graph->getCircle(graph->numCircles() - 1), Qt::LeftButton);
         }
         else
@@ -83,6 +85,34 @@ State* MovingNodeState::updateState(QMouseEvent* event)
     }
     else if(event->button() == enterAction)
     {
+        if(enterAction == Qt::LeftButton)
+        {
+            CircleNode edgeNode = graph->popCircle();
+            if(graph->circleLocator.isInsideNode(event->pos()))
+            {
+                if(graph->numEdges() > 0)
+                {
+                    if(graph->getEdge(graph->numEdges() - 1).contains(edgeNode))
+                    {
+                        CircleNode* oldNode = &graph->circleLocator.nearestCircle(event->pos());
+                        graph->getEdge(graph->numEdges() - 1).setNode(EndNode::SECOND, oldNode);
+                    }
+                }
+            }
+            else
+            {
+                graph->addCircle(edgeNode);
+                if(graph->numEdges() > 0)
+                {
+                    if(graph->getEdge(graph->numEdges() - 1).contains(edgeNode))
+                    {
+                        CircleNode& lastNode = graph->getCircle(graph->numCircles() - 1);
+                        graph->getEdge(graph->numEdges() - 1).setNode(EndNode::SECOND, &lastNode);
+                    }
+                }
+            }
+
+        }
         return new DefaultState(graph);
     }
     else

@@ -54,9 +54,8 @@ bool CircleLocator::isInsideNode(QPoint point)
         temp = *it;
         int itX = temp->getX() + (temp->getSize() / 2);
         int itY = temp->getY() + (temp->getSize() / 2);
-        double dist = sqrt(pow(itX - point.x(),2) + pow(itY - point.y(), 2)) - temp->getSize();
-//        qDebug() << "X:" << itX << "Y:" << itY;
-//        qDebug() << "X:" << point.x() << "Y:" << point.y() << "D:" << dist;
+        double dist = sqrt(pow(itX - point.x(),2) + pow(itY - point.y(), 2)) - (temp->getSize() / 2);
+
         if(dist < 0)
         {
             return true;

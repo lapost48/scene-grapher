@@ -17,6 +17,8 @@ public:
     void setColor(Qt::GlobalColor color);
     Qt::GlobalColor getColor();
 
+    bool operator==(CircleNode otherNode);
+
 private:
     int xPos;
     int yPos;

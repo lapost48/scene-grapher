@@ -19,7 +19,7 @@ public:
     ~CircleGraph();
     int numCircles();
     int addCircle(CircleNode newNode);
-    CircleNode& popCircle();
+    CircleNode popCircle();
     void removeCircle(int index);
     CircleNode& getCircle(int index);
     std::list<CircleNode*>::iterator circleIterator();

@@ -2,8 +2,8 @@
 
 Edge::Edge(CircleNode* a, CircleNode* b)
 {
-    first = a;
-    second = b;
+    nodes[FIRST] = a;
+    nodes[SECOND] = b;
 }
 
 Edge::~Edge()
@@ -13,8 +13,15 @@ Edge::~Edge()
 
 CircleNode& Edge::get(EndNode index)
 {
-    if(index == 0)
-        return *first;
-    else
-        return *second;
+    return *nodes[index];
+}
+
+void Edge::setNode(EndNode index, CircleNode *newNode)
+{
+    nodes[index] = newNode;
+}
+
+bool Edge::contains(CircleNode node)
+{
+    return (*nodes[FIRST] == node || *nodes[SECOND] == node);
 }

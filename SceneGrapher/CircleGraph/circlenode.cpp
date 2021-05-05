@@ -51,3 +51,12 @@ Qt::GlobalColor CircleNode::getColor()
 {
     return circleColor;
 }
+
+bool CircleNode::operator==(CircleNode otherNode)
+{
+    bool equal = xPos == otherNode.getX();
+    equal &= yPos == otherNode.getY();
+    equal &= size == otherNode.getSize();
+    equal &= circleColor == otherNode.getColor();
+    return equal;
+}
