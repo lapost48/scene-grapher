@@ -20,5 +20,6 @@ int main(int argc, char *argv[])
 
     w.setCentralWidget(&graph);
     w.addToolBar(&toolbar);
+    w.setFixedSize(800, 400);
     return a.exec();
 }
