@@ -23,6 +23,7 @@ HEADERS += \
     CircleGraph/circlelocator.h \
     CircleGraph/circlenode.h \
     CircleGraph/edge.h \
+    GraphWidget/graphmode.h \
     GraphWidget/graphwidget.h \
     GraphWidget/statemachine.h \
     mainwindow.h

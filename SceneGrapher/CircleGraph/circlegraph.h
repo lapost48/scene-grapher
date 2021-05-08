@@ -21,6 +21,7 @@ public:
     int addCircle(CircleNode newNode);
     CircleNode popCircle();
     void removeCircle(int index);
+    void removeCircle(CircleNode* nodePtr);
     CircleNode& getCircle(int index);
     std::list<CircleNode*>::iterator circleIterator();
 //    CircleNode& find(CircleNode* nodeRef);

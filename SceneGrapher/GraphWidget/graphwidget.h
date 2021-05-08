@@ -2,17 +2,15 @@
 #define GRAPHWIDGET_H
 
 #include "CircleGraph/circlegraph.h"
+#include "graphmode.h"
 #include "statemachine.h"
 
+#include <Qt>
 #include <QWidget>
 #include <QMouseEvent>
 #include <QPainter>
 
 #include <vector>
-
-
-#include <Qt>
-
 
 class GraphWidget : public QWidget
 {
@@ -21,6 +19,15 @@ class GraphWidget : public QWidget
 public:
     GraphWidget();
     ~GraphWidget();
+
+public slots:
+    void toDefaultMode(bool);
+    void toCreateMode(bool);
+    void toMoveMode(bool);
+    void toDeleteMode(bool);
+
+signals:
+
 
 protected:
     void paintEvent(QPaintEvent *);

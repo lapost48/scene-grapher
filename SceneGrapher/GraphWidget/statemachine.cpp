@@ -21,7 +21,52 @@ DefaultState::~DefaultState()
 
 }
 
-State* DefaultState::updateState(QMouseEvent* event)
+State* DefaultState::updateState(QMouseEvent *event, GraphMode mode)
+{
+    if(mode == CREATE)
+    {
+        return CreatingNodeState(graph).updateState(event, mode);
+    }
+    else if(mode == MOVE)
+    {
+        if(graph->numCircles() > 0)
+        {
+            return new MovingNodeState(graph, &graph->circleLocator.nearestCircle(event->pos()));
+        }
+        else
+        {
+            return this;
+        }
+    }
+    else if(mode == DELETE)
+    {
+        if(graph->numCircles() > 0)
+        {
+            return DeletingNodeState(graph).updateState(event, mode);
+        }
+        else
+        {
+            return this;
+        }
+    }
+    else
+    {
+        return this;
+    }
+}
+
+CreatingNodeState::CreatingNodeState(CircleGraph* g)
+    : State(g)
+{
+
+}
+
+CreatingNodeState::~CreatingNodeState()
+{
+
+}
+
+State* CreatingNodeState::updateState(QMouseEvent* event, GraphMode)
 {
     if(event->button() == Qt::LeftButton)
     {
@@ -38,23 +83,14 @@ State* DefaultState::updateState(QMouseEvent* event)
             {
                 graph->addEdge(Edge(&node, &graph->getCircle(graph->numCircles() - 1)));
             }
-            return new MovingNodeState(graph, &graph->getCircle(graph->numCircles() - 1), Qt::LeftButton);
         }
         else
         {
             int x = event->pos().x() - 25;
             int y = event->pos().y() - 25;
             graph->addCircle(CircleNode(x, y, 50));
-            return new MovingNodeState(graph, &graph->getCircle(graph->numCircles() - 1), Qt::LeftButton);
         }
-    }
-    else if(event->button() == Qt::RightButton)
-    {
-        if(graph->circleLocator.isInsideNode(event->pos()))
-        {
-            return new MovingNodeState(graph, &graph->circleLocator.nearestCircle((event->pos())), Qt::RightButton);
-        }
-        return this;
+        return new MovingNodeState(graph, &graph->getCircle(graph->numCircles() - 1));
     }
     else
     {
@@ -62,11 +98,10 @@ State* DefaultState::updateState(QMouseEvent* event)
     }
 }
 
-MovingNodeState::MovingNodeState(CircleGraph* g, CircleNode* a, Qt::MouseButton action)
+MovingNodeState::MovingNodeState(CircleGraph* g, CircleNode* a)
     : State(g)
 {
     activeNode = a;
-    enterAction = action;
 }
 
 MovingNodeState::~MovingNodeState()
@@ -74,7 +109,7 @@ MovingNodeState::~MovingNodeState()
 
 }
 
-State* MovingNodeState::updateState(QMouseEvent* event)
+State* MovingNodeState::updateState(QMouseEvent* event, GraphMode mode)
 {
     if(event->button() == Qt::NoButton)
     {
@@ -83,9 +118,9 @@ State* MovingNodeState::updateState(QMouseEvent* event)
         activeNode->move(x, y);
         return this;
     }
-    else if(event->button() == enterAction)
+    else if(event->button() == Qt::LeftButton)
     {
-        if(enterAction == Qt::LeftButton)
+        if(mode == CREATE)
         {
             CircleNode edgeNode = graph->popCircle();
             if(graph->circleLocator.isInsideNode(event->pos()))
@@ -121,10 +156,31 @@ State* MovingNodeState::updateState(QMouseEvent* event)
     }
 }
 
+DeletingNodeState::DeletingNodeState(CircleGraph* g)
+    : State(g)
+{
+
+}
+
+DeletingNodeState::~DeletingNodeState()
+{
+
+}
+
+State* DeletingNodeState::updateState(QMouseEvent* event, GraphMode)
+{
+    if(graph->circleLocator.isInsideNode(event->pos()))
+    {
+        CircleNode* node = &graph->circleLocator.nearestCircle(event->pos());
+        graph->removeCircle(node);
+    }
+    return new DefaultState(graph);
+}
+
 StateMachine::StateMachine(CircleGraph* g)
 {
     currentState = new DefaultState(g);
-
+    mode = DEFAULT;
 }
 
 StateMachine::~StateMachine()
@@ -134,7 +190,7 @@ StateMachine::~StateMachine()
 
 bool StateMachine::transition(QMouseEvent* event)
 {
-    State* temp = currentState->updateState(event);
+    State* temp = currentState->updateState(event, mode);
     if(temp != currentState)
     {
         delete currentState;
@@ -142,5 +198,10 @@ bool StateMachine::transition(QMouseEvent* event)
         return true;
     }
     return false;
+}
+
+bool StateMachine::setMode(GraphMode actionType)
+{
+    mode = actionType;
 }
 

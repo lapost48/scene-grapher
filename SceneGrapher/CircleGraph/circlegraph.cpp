@@ -44,6 +44,11 @@ void CircleGraph::removeCircle(int index)
     nodes.erase(it);
 }
 
+void CircleGraph::removeCircle(CircleNode* nodePtr)
+{
+    nodes.remove(nodePtr);
+}
+
 CircleNode& CircleGraph::getCircle(int index)
 {
     std::list<CircleNode*>::iterator it = nodes.begin();
