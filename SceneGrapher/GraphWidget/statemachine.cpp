@@ -23,36 +23,33 @@ DefaultState::~DefaultState()
 
 State* DefaultState::updateState(QMouseEvent *event, GraphMode mode)
 {
-    if(mode == CREATE)
+    if(event->button() == Qt::LeftButton)
     {
-        return CreatingNodeState(graph).updateState(event, mode);
-    }
-    else if(mode == MOVE)
-    {
-        if(graph->numCircles() > 0)
+        switch(mode)
         {
-            return new MovingNodeState(graph, &graph->circleLocator.nearestCircle(event->pos()));
-        }
-        else
-        {
-            return this;
+        case CREATE:
+            return CreatingNodeState(graph).updateState(event, mode);
+            break;
+        case MOVE:
+            if(graph->numCircles() > 0)
+            {
+                if(graph->circleLocator.isInsideNode(event->pos()))
+                {
+                   return new MovingNodeState(graph, &graph->circleLocator.nearestCircle(event->pos()));
+                }
+            }
+            break;
+        case DELETE:
+            if(graph->numCircles() > 0)
+            {
+                return DeletingNodeState(graph).updateState(event, mode);
+            }
+            break;
+        case DEFAULT:
+            break;
         }
     }
-    else if(mode == DELETE)
-    {
-        if(graph->numCircles() > 0)
-        {
-            return DeletingNodeState(graph).updateState(event, mode);
-        }
-        else
-        {
-            return this;
-        }
-    }
-    else
-    {
-        return this;
-    }
+    return this;
 }
 
 CreatingNodeState::CreatingNodeState(CircleGraph* g)
@@ -102,6 +99,7 @@ MovingNodeState::MovingNodeState(CircleGraph* g, CircleNode* a)
     : State(g)
 {
     activeNode = a;
+    activeNode->setColor(Qt::GlobalColor::darkGray);
 }
 
 MovingNodeState::~MovingNodeState()
@@ -137,21 +135,23 @@ State* MovingNodeState::updateState(QMouseEvent* event, GraphMode mode)
             else
             {
                 graph->addCircle(edgeNode);
+                CircleNode& lastNode = graph->getCircle(graph->numCircles() - 1);
+                lastNode.setColor(Qt::GlobalColor::black);
                 if(graph->numEdges() > 0)
                 {
                     if(graph->getEdge(graph->numEdges() - 1).contains(edgeNode))
                     {
-                        CircleNode& lastNode = graph->getCircle(graph->numCircles() - 1);
                         graph->getEdge(graph->numEdges() - 1).setNode(EndNode::SECOND, &lastNode);
                     }
                 }
             }
-
         }
+        activeNode->setColor(Qt::GlobalColor::black);
         return new DefaultState(graph);
     }
     else
     {
+        activeNode->setColor(Qt::GlobalColor::black);
         return this;
     }
 }

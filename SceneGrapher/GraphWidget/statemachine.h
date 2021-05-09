@@ -36,9 +36,6 @@ public:
     CreatingNodeState(CircleGraph* g);
     ~CreatingNodeState();
     State* updateState(QMouseEvent* event, GraphMode);
-
-private:
-    CircleNode* activeNode;
 };
 
 class MovingNodeState
